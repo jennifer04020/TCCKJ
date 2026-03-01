@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Python em Libras</title>
+
+<!-- Fontes -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --bg-main: linear-gradient(180deg, #0b0b10, #141422);
+  --card-bg: #1a1a28;
+  --text: #eeeeee;
+  --accent: #8f6bff;
+  --accent-soft: #d6c9ff;
+  --highlight: #9400d3; /* roxo mais vibrante para detalhes */
+}
+
+/* Reset e box-sizing */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Corpo */
+body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.7;
+  display: flex;
+}
+
+/* Menu lateral esquerdo */
+.menu-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 220px;
+  background: rgba(26, 26, 40, 0.95);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  overflow-y: auto;
+  z-index: 999;
+  border-right: 2px solid var(--highlight);
+  box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+}
+
+/* Espaço para o conteúdo ao lado */
+.conteudo {
+  margin-left: 220px; /* largura do menu lateral */
+  width: calc(100% - 220px);
+  padding: 20px;
+}
+
+/* Links do menu lateral */
+.menu-lateral a {
+  text-decoration: none;
+  color: var(--accent);
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 8px;
+  width: 100%;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  font-size: 1rem;
+}
+
+.menu-lateral a:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Cabeçalho com logo e frase */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 2px solid var(--highlight);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.8rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Seção de boas-vindas */
+.inicio-centro {
+  min-height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.inicio-centro h1 {
+  font-family: 'Fira Code', monospace;
+  font-size: 3rem;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+/* Títulos */
+h2 {
+  font-family: 'Fira Code', monospace;
+  color: var(--accent-soft);
+  margin: 35px 0 12px;
+  border-bottom: 2px solid var(--highlight);
+  padding-bottom: 8px;
+}
+
+/* Texto */
+p {
+  max-width: 720px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* Card de vídeos */
+.card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 15px;
+  margin-bottom: 40px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  border: 1px solid rgba(143,107,255,0.12);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+/* Tamanho ajustado do vídeo (original de 720px) */
+.video {
+  width: 100%; /* ocupa toda a largura disponível */
+  position: relative;
+  padding-bottom: 56.25%; /* proporção 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 14px;
+}
+.video iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Rodapé com imagens e informações */
+footer {
+  margin-top: 40px;
+  padding: 40px 20px;
+  background: linear-gradient(180deg, #140b1f, #0b0b10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 120px; /* alinhar com o conteúdo */
+  width: calc(100% - 220px);
+}
+
+/* Sobre o projeto */
+footer h3 {
+  margin-bottom: 20px;
+  font-weight: 500;
+  color: var(--accent-soft);
+  text-align: center;
+}
+
+.footer-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1000px;
+  margin-bottom: 30px;
+}
+
+/* Cada fala com imagem e texto */
+.fala {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 350px;
+  text-align: center;
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(143,107,255,0.2);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.fala:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-5px);
+}
+
+.fala img {
+  width: 150px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.fala p {
+  font-size: 0.9rem;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+/* Informações de contato e links */
+.contato {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #ccc;
+  text-align: center;
+}
+
+/* Estilo geral para links no rodapé */
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<!-- Menu lateral esquerdo -->
+<div class="menu-lateral">
+  <a href="#inicio" style="font-weight: bold;">Início</a>
+  <a href="#historia">História do Python</a>
+  <a href="#print">Print texto</a>
+  <a href="#print-num">Print números</a>
+  <a href="#variavel">Variável</a>
+  <a href="#nome-idade">Nome e idade</a>
+  <a href="#soma">Soma com variável</a>
+  <a href="#if-else">If e Else</a>
+  <a href="#input">Input</a>
+  <a href="#case">Case</a>
+</div>
+
+<!-- Conteúdo ao lado -->
+<div class="conteudo">
+
+<!-- Seção de boas-vindas -->
+<div class="inicio-centro" id="inicio">
+  <h1>Python em Libras</h1>
+</div>
+
+<!-- Seções do conteúdo -->
+<h2 id="historia">História do Python</h2>
+<p>Python é uma linguagem de programação criada em 1991 por Guido van Rossum. Ela é fácil de aprender, foi feita para ser simples e clara, e hoje é usada em muitas áreas da tecnologia, como sites, pesquisas e inteligência artificial. Por isso, qualquer pessoa pode aprender Python com dedicação e prática.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/yMG8vAyP5h8" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="print">Print texto</h2>
+<p>Print é um comando do Python usado para mostrar informações na tela.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed//EuqOgdGDGIM" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="print-num">Print números</h2>
+<p>Print com números serve para mostrar números na tela no Python.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/VUw4JWnjC0Q" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="variavel">O que é variável?</h2>
+<p>Variável é um espaço para guardar informações no Python, como números ou textos.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/c8u0Xq269F4" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="nome-idade">Variável simples</h2>
+<p>Variável simples é usada para guardar um valor, como um número ou um nome.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/1WNwwvqxUvc" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2>Nome e idade</h2>
+<p>Nome e idade são informações que podem ser guardadas em variáveis. Nome guarda um texto e idade guarda um número.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/y31Er6mb-90" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2>Soma com variável</h2>
+<p>Soma com variável é usar valores guardados para fazer uma conta de adição.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/cg_CABR1C3Y" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="if-else">If e Else</h2>
+<p>If e else são usados para tomar decisões quando uma condição é verdadeira ou falsa.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/yjtlYycy8Fs" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="input">Input</h2>
+<p>Input é usado para fazer perguntas e receber informações digitadas pela pessoa.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/xyioQ_GIJHw" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2 id="case">O que é Case?</h2>
+<p>Case é usado para <strong>escolher uma opção entre várias</strong>, de acordo com a resposta ou valor informado.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/AAjuB0bfvu4" allowfullscreen></iframe>
+  </div>
+</div>
+
+<h2>Case</h2>
+<p>Case é um comando usado para <strong>comparar opções e escolher uma ação</strong>, de acordo com o valor informado.</p>
+<div class="card">
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/EjXO4soGDBU" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Rodapé -->
+<footer>
+  <h3>Sobre Nós</h3>
+  <div class="footer-info">
+    <div class="fala">
+      <img src="memojijennifer.png" alt="Jennifer" />
+      <p><strong>Jennifer Silva Lima</strong> - Criadora do site, responsável pelo texto do TCC, artigos, vídeos explicativos sobre Python, variáveis, comandos acessíveis em Libras.</p>
+    </div>
+    <div class="fala">
+      <img src="memojikamilly.png" alt="Kamilly" />
+      <p><strong>Kamilly Victoria</strong> - Colaboradora, fez vídeos explicando o que é case, variável, história do Python, além de textos e artigos relacionados.</p>
+    </div>
+  </div>
+
+  <h3>Sobre o Projeto</h3>
+  <div class="footer-info">
+    <p>Instituição: <strong>IFMA - Campus Açailândia</strong></p>
+    <p>Orientador de TCC: <strong>Valter dos Santos Mendonça Neto</strong></p>
+    <p>Contato Jennifer: <a href="mailto:jennifer.lima@acad.ifma.edu.br">jennifer.lima@acad.ifma.edu.br</a> | <a href="tel:+55-99-99114-8695">Telefone: (99) 99114-8695</a></p>
+    <p>Contato Kamilly: <a href="mailto:kamillyvictoria@acad.ifma.edu.br">kamillyvictoria@acad.ifma.edu.br</a> | <a href="tel:+55-91-99186-5926">Telefone: (91) 99186-5926</a></p>
+  </div>
+</footer>
+
+</div> <!-- fim do conteúdo -->
+
+</body>
+</html>
